@@ -1,10 +1,13 @@
 AlexWebBundle
 =============
 
-STILL IN DEVELOPMENT
+STILL IN DEVELOPMENT - **You need to duplicates repositories from composer.json
+to your composer.json and have minimum stability to dev in order to use this
+bundle**
 
 Installation
 ------------
+
 
 Add **alexandresalome/web-bundle** to your **composer.json**:
 
