@@ -1,0 +1,75 @@
+{#
+    This template is used as default pagination template for lists.
+
+    To use it:
+
+    {% embed "AlexWebBundle::pagination.html.twig" %}
+        {% block colspan '4' %}
+
+        {% block head %}
+            <th>foo</th>
+            <th>bar</th>
+        {% endblock %}
+
+        {% block body %}
+            {% for user in users %}
+                <tr>
+                    <td>...</td>
+                    <td>...</td>
+                </tr>
+            {% endfor %}
+        {% endblock %}
+    {% endembed %}
+
+#}
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            {% block head %}
+                <th>Name</th>
+            {% endblock %}
+        </tr>
+    </thead>
+    <tbody>
+        {% block body %}
+            {% for value in pager %}
+                <tr>
+                    <td>{{ value }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="{% block colspan '1' %}"><em>no value</em></td></tr>
+            {% endfor %}
+        {% endblock %}
+    </tbody>
+    {% if pager.pageCount > 0 %}
+    <tfoot>
+        <tr>
+            <td colspan="{{ block('colspan') }}">
+                <p class="pull-right">
+                    {% if not pager.firstPage %}
+                        <a href="?page={{ pager.page - 1 }}">&laquo;</a>
+                    {% endif %}
+                    <a{% if pager.firstPage %} class="active"{% endif %} href="?page=1">1</a>
+                    {% set pages = pager.pageRange %}
+                    {% if pages[0] > 2 %}
+                        ...
+                    {% endif %}
+                    {% for page in pages %}
+                        {% if page > 1 and page < pager.pageCount %}
+                            <a href="?page={{ page }}">{{ page }}</a>
+                        {% endif %}
+                    {% endfor %}
+                    {% if pages[pages|length - 1] < pager.pageCount - 1 %}
+                        ...
+                    {% endif %}
+                    <a{% if pager.lastPage %} class="active"{% endif %} href="?page={{ pager.pageCount }}">{{ pager.pageCount }}</a>
+                    {% if not pager.lastPage %}
+                        <a href="?page={{ pager.pageCount }}">&raquo;</a>
+                    {% endif %}
+                </p>
+                <p>{{ pager.count }} results - Page {{ pager.page }} / {{ pager.pageCount }}</p>
+            </td>
+        </tr>
+    </tfoot>
+    {% endif %}
+</table>
