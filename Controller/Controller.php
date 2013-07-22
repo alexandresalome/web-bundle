@@ -3,6 +3,7 @@
 namespace Alex\WebBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * A reusable controller.
@@ -67,5 +68,14 @@ abstract class Controller extends BaseController
     public function addNotice($message)
     {
         $this->get('session')->getFlashBag()->add('message_notice', $message);
+    }
+
+    public function renderJson($data)
+    {
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent(json_encode($data));
+
+        return $response;
     }
 }
