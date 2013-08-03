@@ -134,3 +134,57 @@ you might appreciate the template ``AlexWebBundle::pagination.html.twig``. To us
             {% endfor %}
         {% endblock %}
     {% endembed %}
+
+Additional dependencies
+:::::::::::::::::::::::
+
+In your ``composer.json``:
+
+.. code-block:: json
+
+    "require": {
+        "leafo/lessphp": "~0.3",
+        "twitter/bootstrap": "~2.3",
+        "fortawesome/font-awesome": "~3.2"
+
+        "jquery/jquery": "~1.10",
+        "jquery/jquery-ui": "~1.10",
+        "famfamfam/flags": "dev-master"
+    },
+
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "jquery/jquery",
+                "version": "1.10.2",
+                "dist": {
+                    "url": "http://code.jquery.com/jquery-1.10.2.min.js",
+                    "type": "file"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "jquery/jquery-ui",
+                "version": "1.10.3",
+                "dist": {
+                    "url": "http://jqueryui.com/resources/download/jquery-ui-1.10.3.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "famfamfam/flags",
+                "version": "dev-master",
+                "source": {
+                    "url": "https://github.com/tkrotoff/famfamfam_flags.git",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
+        }
+    ]
