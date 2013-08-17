@@ -2,17 +2,53 @@
 
 {# Widgets #}
 
+{% block form_widget_simple %}
+{% spaceless %}
+    {% set type = type|default('text') %}
+    {% if attr.class is defined and not "form-control" in attr.class %}
+        {% set attr = attr|merge({class: attr.class ~ ' form-control'}) %}
+    {% elseif attr.class is not defined %}
+        {% set attr = attr|merge({class: 'form-control'}) %}
+    {% endif %}
+    <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{% endspaceless %}
+{% endblock form_widget_simple %}
+
 {% block submit_widget %}
 {% spaceless %}
     {% if attr.class is defined %}
-        {% set class = attr.class ~ ' btn btn-primary' %}
+        {% set class = attr.class ~ ' btn btn-default' %}
     {% else %}
-        {% set class = 'btn btn-primary' %}
+        {% set class = 'btn btn-default' %}
     {% endif %}
     {% set attr = attr|merge({class: class}) %}
     {{ parent() }}
 {% endspaceless %}
 {% endblock %}
+
+{% block choice_widget_collapsed %}
+{% spaceless %}
+    {% if attr.class is defined %}
+        {% set attr = attr|merge({class: attr.class ~ ' form-control'}) %}
+    {% else %}
+        {% set attr = attr|merge({class: 'form-control'}) %}
+    {% endif %}
+    <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+        {% if empty_value is not none %}
+            <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ empty_value|trans({}, translation_domain) }}</option>
+        {% endif %}
+        {% if preferred_choices|length > 0 %}
+            {% set options = preferred_choices %}
+            {{ block('choice_widget_options') }}
+            {% if choices|length > 0 and separator is not none %}
+                <option disabled="disabled">{{ separator }}</option>
+            {% endif %}
+        {% endif %}
+        {% set options = choices %}
+        {{ block('choice_widget_options') }}
+    </select>
+{% endspaceless %}
+{% endblock choice_widget_collapsed %}
 
 {% block choice_widget_expanded %}
 {% spaceless %}
@@ -35,6 +71,11 @@
     {% if widget == 'single_text' %}
         {{ block('form_widget_simple') }}
     {% else %}
+        {% if attr.class is defined %}
+            {% set attr = attr|merge({class: attr.class ~ " form-inline"}) %}
+        {% else %}
+            {% set attr = attr|merge({class: "form-inline"}) %}
+        {% endif %}
         <div {{ block('widget_container_attributes') }}>
             {{ form_errors(form.date) }}
             {{ form_errors(form.time) }}
@@ -161,6 +202,13 @@
         {% elseif multiple is defined and not multiple %}
             {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' radio')|trim}) %}
         {% endif %}
+
+        {% if attr.class is defined %}
+            {% set attr = attr|merge({class: attr.class ~ ' col-lg-2 control-label'}) %}
+        {% else %}
+            {% set attr = attr|merge({class: 'col-lg-2 control-label'}) %}
+        {% endif %}
+
         <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
             {{ widget|raw }}
             <span>
@@ -168,7 +216,7 @@
             </span>
         </label>
     {% else %}
-        {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' control-label')|trim}) %}
+        {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' col-lg-2 control-label')|trim}) %}
         {{ parent() }}
     {% endif %}
 {% endspaceless %}
@@ -203,9 +251,9 @@
 
 {% block form_row %}
 {% spaceless %}
-    <div class="control-group{% if not compound and not valid %} error{% endif %}">
+    <div class="form-group{% if not compound and not valid %} error{% endif %}">
         {{ form_label(form, label|default(null)) }}
-        <div class="controls">
+        <div class="col-lg-10">
             {{ form_widget(form) }}
             {{ form_errors(form) }}
         </div>
@@ -215,8 +263,8 @@
 
 {% block submit_row %}
 {% spaceless %}
-    <div class="control-group">
-        <div class="controls">
+    <div class="form-group">
+        <div class="col-lg-offset-2 col-lg-10">
         {{ form_widget(form) }}
         </div>
     </div>
