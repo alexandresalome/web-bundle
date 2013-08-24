@@ -68,7 +68,7 @@ A full-features basic template
 * Form templating
 
   * Date picker
-  * New form type (``form_section``)
+  * New form type (``form_section``, ``form_tabs``)
 
 **To start using it, in your templates:**
 
@@ -78,11 +78,12 @@ A full-features basic template
 
     {% block title 'A yuupi title' %}
 
-    {% block }
+    {% block content %}
+        Page content
+    {% endblock %}
 
 Locale listener
 :::::::::::::::
-
 
 A listener can be registered in the application (``LocaleListener``) to constraint
 the request locale:
@@ -134,6 +135,41 @@ you might appreciate the template ``AlexWebBundle::pagination.html.twig``. To us
             {% endfor %}
         {% endblock %}
     {% endembed %}
+
+Form extra widgets
+::::::::::::::::::
+
+**Form sections**
+
+Structure your form with sections, a virtual form:
+
+    $builder
+        ->add($builder->create('informations' 'form_section')
+            ->add('firstname', 'text')
+            ->add('lastname', 'text')
+        )
+        ->add($builder->create('contacts', 'form_section')
+            ->add('main', 'contact')
+        )
+
+**Form tabs**
+
+Here is an example of a form with tabs:
+
+.. code-block:: php
+
+    $builder = $this->get('form.factory')->createBuilder('form_tabs');
+
+    $builder
+        ->add($builder->create('informations', 'form_tab')
+            ->add('firstname', 'text')
+            ->add('lastname', 'text')
+        )
+        ->add($builder->create('contacts', 'form_tab')
+            ->add('main', 'contact')
+        )
+    ;
+
 
 Additional dependencies
 :::::::::::::::::::::::

@@ -17,9 +17,9 @@
 {% block submit_widget %}
 {% spaceless %}
     {% if attr.class is defined %}
-        {% set class = attr.class ~ ' btn btn-default' %}
+        {% set class = attr.class ~ ' btn btn-primary' %}
     {% else %}
-        {% set class = 'btn btn-default' %}
+        {% set class = 'btn btn-primary' %}
     {% endif %}
     {% set attr = attr|merge({class: class}) %}
     {{ parent() }}
@@ -110,10 +110,15 @@
 {% block date_widget %}
 {% spaceless %}
     {% if widget == 'single_text' %}
-    <div class="input-append">
-        {{ block('date_widget_single_text')}}
-        <a class="btn"><i class="icon-calendar"></i></a>
-    </div>
+        {% if attr.class is defined %}
+            {% set attr = attr|merge({class: attr.class ~ ' form-control'}) %}
+        {% else %}
+            {% set attr = attr|merge({class: 'form-control'}) %}
+        {% endif %}
+        <div class="input-group">
+            {{ block('date_widget_single_text')}}
+            <a class="input-group-addon"><i class="icon-calendar"></i></a>
+        </div>
     {% else %}
         {% if datetime is not defined or false == datetime %}
         <div {{ block('widget_container_attributes') }}>
@@ -155,16 +160,22 @@
 
 {% block money_widget %}
 {% spaceless %}
+    {% if attr.class is defined %}
+        {% set attr = attr|merge({class: attr.class ~ ' form-control'}) %}
+    {% else %}
+        {% set attr = attr|merge({class: 'form-control'}) %}
+    {% endif %}
+
     {% set append = '{{' == money_pattern[0:2] %}
-    <div class="{{ append ? 'input-append' : 'input-prepend' }}">
+    <div class="input-group">
         {% if not append %}
-            <span class="add-on">
+            <span class="input-group-addon">
                 {{ money_pattern|replace({ '{{ widget }}':''}) }}
             </span>
         {% endif %}
         {{ block('form_widget_simple') }}
         {% if append %}
-            <span class="add-on">
+            <span class="input-group-addon">
                 {{ money_pattern|replace({ '{{ widget }}':''}) }}
             </span>
         {% endif %}
@@ -240,6 +251,43 @@
 
 {# Rows #}
 
+{% block form_tabs_content %}
+    {% if pending_render|length %}
+        <div class="tab-content">
+            {% for tab in pending_render %}
+                <div class="tab-pane{{ loop.first ? ' active' : '' }}" id="{{ tab.vars.id }}">
+                    {{ form_widget(tab) }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block form_tabs_widget %}
+    {% set is_tab = false %}
+    {% set pending_render = [] %}
+    {% for name, subform in form %}
+        {% if is_tab and not tabs[name]|default(false) %}
+            </ul>
+            {{ block('form_tabs_content') }}
+            {% set is_tab = false %}
+            {% set pending_render = [] %}
+        {% endif %}
+        {% if not is_tab and tabs[name]|default(false) %}
+            {% set is_tab = true %}
+            <ul class="nav nav-tabs">
+        {% endif %}
+        {% if tabs[name]|default(false) %}
+            <li class="{{ loop.first ? 'active' : '' }}">
+                <a href="#{{ subform.vars.id }}" data-toggle="tab">
+                    {{ subform.vars.label|default(subform.vars.name|humanize) }}
+                </a>
+            </li>
+            {% set pending_render = pending_render|merge([subform]) %}
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
 {% block form_section_row %}
 {% spaceless %}
         <fieldset>
@@ -253,7 +301,7 @@
 {% spaceless %}
     <div class="form-group{% if not compound and not valid %} error{% endif %}">
         {{ form_label(form, label|default(null)) }}
-        <div class="col-lg-10">
+        <div class="col-lg-8">
             {{ form_widget(form) }}
             {{ form_errors(form) }}
         </div>
@@ -264,7 +312,7 @@
 {% block submit_row %}
 {% spaceless %}
     <div class="form-group">
-        <div class="col-lg-offset-2 col-lg-10">
+        <div class="col-lg-offset-2 col-lg-6">
         {{ form_widget(form) }}
         </div>
     </div>

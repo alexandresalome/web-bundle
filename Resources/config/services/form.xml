@@ -10,6 +10,14 @@
             <tag name="form.type" alias="form_section" />
         </service>
 
+        <service id="form.type.form_tab" class="Alex\WebBundle\Form\Type\FormTabType">
+            <tag name="form.type" alias="form_tab" />
+        </service>
+
+        <service id="form.type.form_tabs" class="Alex\WebBundle\Form\Type\FormTabsType">
+            <tag name="form.type" alias="form_tabs" />
+        </service>
+
         <service id="form.type_extension.date" class="Alex\WebBundle\Form\TypeExtension\DateTypeExtension">
             <tag name="form.type_extension" alias="date" />
         </service>
