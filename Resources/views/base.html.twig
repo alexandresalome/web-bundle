@@ -4,7 +4,7 @@
     <head>
         <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        {% block stylsheets %}
+        {% block stylesheets %}
             {% stylesheets filter="cssrewrite,assetdirectory" combine=true output="css/all.css"
 
                 "../vendor/twitter/bootstrap/dist/css/bootstrap.css"
@@ -17,7 +17,7 @@
             {% block extra_stylesheets '' %}
         {% endblock %}
     </head>
-    <body{% block extra_body '' %}>
+    <body{% block body_attributes '' %}>
         {% block body '' %}
         {% block javascripts %}
             {% javascripts combine=true output="js/all.js"
