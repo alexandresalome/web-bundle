@@ -70,6 +70,8 @@ Form templating
 Twitter Bootstrap 3.0 templating is available in this bundle for forms. In Twig
 configuration, add form templating:
 
+.. code-block:: yaml
+
     twig:
         form:
             resources: [ "AlexWebBundle::form_bootstrap3_layout.html.twig" ]
@@ -77,25 +79,20 @@ configuration, add form templating:
 Locale listener
 ---------------
 
-A listener can be registered in the application (``LocaleListener``) to constraint
-the request locale.
+If you want to allow user to choose locale in a given set, you can turn
+on the locale listener by appending in your  ``config.yml`` file:
 
 .. code-block:: yaml
 
-    # Request will be constrainted to use one of those locale.
-    # The chosen locale will be persisted in session
     alex_web:
         locale_listener: [ fr_FR, en_US, pt_PT ]
 
-    # Disable listener
-    alex_web:
-        locale_listener: false
+This configuration will constraint the user locale on one of those. Default
+behavior is to store this locale in session. If you don't want to use session
+but still want to use the listener:
 
-    # Constraint on one locale
-    alex_web:
-        locale_listener: fr_FR
+.. code-block:: yaml
 
-    # Advances configuration
     alex_web:
         locale_listener:
             enabled: true
@@ -133,7 +130,10 @@ Form extra widgets
 
 **Form sections**
 
-Structure your form with sections, a virtual form:
+Structure your form with sections. Sections will group fields
+with a legend above, so that your form is more structured:
+
+.. code-block:: php
 
     $builder
         ->add($builder->create('informations' 'form_section')
