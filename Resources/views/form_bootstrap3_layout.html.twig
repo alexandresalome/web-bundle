@@ -120,13 +120,18 @@
             <a class="input-group-addon"><i class="icon-calendar"></i></a>
         </div>
     {% else %}
+        {% if attr.class is defined %}
+            {% set attr = attr|merge({class: attr.class ~ ' form-inline'}) %}
+        {% else %}
+            {% set attr = attr|merge({class: 'form-inline'}) %}
+        {% endif %}
         {% if datetime is not defined or false == datetime %}
         <div {{ block('widget_container_attributes') }}>
         {% endif %}
             {{ date_pattern|replace({
-                '{{ year }}':  form_widget(form.year, {attr: { class : 'span2'} }),
-                '{{ month }}': form_widget(form.month, {attr: { class : 'span2'} }),
-                '{{ day }}':   form_widget(form.day, {attr: { class : 'span2'} }),
+                '{{ year }}':  form_widget(form.year),
+                '{{ month }}': form_widget(form.month),
+                '{{ day }}':   form_widget(form.day),
             })|raw }}
         {% if datetime is not defined or false == datetime %}
         </div>
@@ -146,12 +151,17 @@
         {% set attr = attr|merge({class: class}) %}
         {{ block('form_widget_simple') }}
     {% else %}
-        {% if datetime is not defined or false == datetime %}
-        <div {{ block('widget_container_attributes') }}>
+        {% if attr.class is defined %}
+            {% set attr = attr|merge({class: attr.class ~ ' form-inline'}) %}
+        {% else %}
+            {% set attr = attr|merge({class: 'form-inline'}) %}
         {% endif %}
-            {{ form_widget(form.hour, { attr: { class : 'span1' } }) }}:{{ form_widget(form.minute, { attr: { class : 'span1' } }) }}{% if with_seconds %}:{{ form_widget(form.second, { attr: { class : 'span1' } }) }}{% endif %}
         {% if datetime is not defined or false == datetime %}
-        </div>
+            <div {{ block('widget_container_attributes') }}>
+        {% endif %}
+        {{ form_widget(form.hour, { attr: { class : 'span1' } }) }}:{{ form_widget(form.minute, { attr: { class : 'span1' } }) }}{% if with_seconds %}:{{ form_widget(form.second, { attr: { class : 'span1' } }) }}{% endif %}
+        {% if datetime is not defined or false == datetime %}
+            </div>
         {% endif %}
 
     {% endif %}
@@ -192,6 +202,36 @@
     </div>
 {% endspaceless %}
 {% endblock percent_widget %}
+
+{% block collection_widget %}
+{% spaceless %}
+    <div class="form-collection">
+        <div class="form-collection-elements">
+            {% for subform in form %}
+                <div class="form-collection-element">
+                    {% if allow_delete %}
+                        <div class="row">
+                            <div class="col-lg-10">
+                                {{ form_widget(subform) }}
+                            </div>
+                            <div class="col-lg-2">
+                                <button class="form-collection-delete btn btn-small btn-danger">Delete</button>
+                            </div>
+                        </div>
+                    {% else %}
+                        {{ form_widget(subform) }}
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        {% if prototype is defined %}
+            <div class="form-collection-footer">
+                <button data-prototype="{{ form_widget(prototype)|e }}" class="form-collection-add btn btn-small btn-success">New element</button>
+            </div>
+        {% endif %}
+    </div>
+{% endspaceless %}
+{% endblock %}
 
 {# Labels #}
 
@@ -255,7 +295,7 @@
     {% if pending_render|length %}
         <div class="tab-content">
             {% for tab in pending_render %}
-                <div class="tab-pane{{ loop.first ? ' active' : '' }}" id="{{ tab.vars.id }}">
+                <div class="tab-pane-form tab-pane{{ loop.first ? ' active' : '' }}" id="{{ tab.vars.id }}">
                     {{ form_widget(tab) }}
                 </div>
             {% endfor %}
@@ -301,7 +341,7 @@
 {% spaceless %}
     <div class="form-group{% if not compound and not valid %} error{% endif %}">
         {{ form_label(form, label|default(null)) }}
-        <div class="col-lg-8">
+        <div class="col-lg-10">
             {{ form_widget(form) }}
             {{ form_errors(form) }}
         </div>
@@ -312,7 +352,7 @@
 {% block submit_row %}
 {% spaceless %}
     <div class="form-group">
-        <div class="col-lg-offset-2 col-lg-6">
+        <div class="col-lg-offset-2 col-lg-8">
         {{ form_widget(form) }}
         </div>
     </div>

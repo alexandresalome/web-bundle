@@ -2,36 +2,11 @@
 <html>
     <title>{% block title '' %}</title>
     <head>
-        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        {% block stylesheets %}
-            {% stylesheets filter="cssrewrite,assetdirectory" combine=true output="css/all.css"
-
-                "../vendor/twitter/bootstrap/dist/css/bootstrap.css"
-                "../vendor/fortawesome/font-awesome/less/font-awesome.less"
-                "../vendor/jquery/jquery-ui/themes/base/minified/jquery-ui.min.css"
-                "../vendor/famfamfam/flags/famfamfam-flags.css"
-            %}
-                <link rel="stylesheet" href="{{ asset(asset_url) }}" />
-            {% endstylesheets %}
-            {% block extra_stylesheets '' %}
-        {% endblock %}
+        {% block meta '' %}
+        {% block stylesheets '' %}
     </head>
     <body{% block body_attributes '' %}>
         {% block body '' %}
-        {% block javascripts %}
-            {% javascripts combine=true output="js/all.js"
-
-                "../vendor/jquery/jquery/jquery-1.10.2.min.js"
-                "../vendor/jquery/jquery-ui/ui/jquery-ui.js"
-                "../vendor/jquery/jquery-ui/ui/i18n/jquery-ui-i18n.js"
-                "../vendor/jquery/jquery-ui/ui/minified/jquery-ui.min.js"
-                "../vendor/twitter/bootstrap/dist/js/bootstrap.js"
-                "@AlexWebBundle/Resources/assets/js/form.js"
-            %}
-                <script type="text/javascript" src="{{ asset(asset_url) }}"></script>
-            {% endjavascripts %}
-            {% block extra_javascripts '' %}
-        {% endblock %}
+        {% block javascripts '' %}
     </body>
 </html>

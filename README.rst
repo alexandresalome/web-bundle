@@ -1,10 +1,6 @@
 AlexWebBundle
 =============
 
-STILL IN DEVELOPMENT - **You need to duplicates repositories from composer.json
-to your composer.json and have minimum stability to dev in order to use this
-bundle**
-
 Installation
 ------------
 
@@ -32,61 +28,57 @@ Updates your dependencies and add it to your **AppKernel**:
         )
     }
 
-In ``config.yml``, add the bundle to **assetic configuration**:
+Base controller
+---------------
 
-.. code-block:: yaml
+``Controller`` from this bundle provides a bunch of useful methods.
 
-    assetic:
-        bundles:        [ AlexWebBundle ]
+Take a `look at the class <https://github.com/alexandresalome/web-bundle/blob/master/Controller/Controller.php>`_
+for an exhaustive feature list.
 
-Finally in Twig configuration, add form templating:
+Data Fixtures
+-------------
+
+A full-featured fixture class is available in this bundle:
+
+* getReference/setReference
+* Default order (1)
+* Container injection
+
+To start using it:
+
+.. code-block:: php
+
+    namespace Acme\DemoBundle\DataFixtures\ORM;
+
+    use Alex\WebBundle\DataFixtures\ORMFixture;
+    use Doctrine\Common\Persistence\ObjectManager;
+
+    class UserData extends ORMFixture
+    {
+        public function load(ObjectManager $manager)
+        {
+            $this->get('security.encoder_factory');
+            // ...
+        }
+    }
+
+
+Form templating
+---------------
+
+Twitter Bootstrap 3.0 templating is available in this bundle for forms. In Twig
+configuration, add form templating:
 
     twig:
         form:
-            resources: [ "AlexWebBundle::form.html.twig" ]
-
-Features
---------
-
-A full-features basic template
-::::::::::::::::::::::::::::::
-
-**Styling**:
-
-* Less PHP
-* Twitter Bootstrap
-* Font Awesome
-* Famfamfam flags
-
-**Javascript**:
-
-* jQuery
-* jQuery UI
-
-**Integration with Symfony2**
-
-* Form templating
-
-  * Date picker
-  * New form type (``form_section``, ``form_tabs``)
-
-**To start using it, in your templates:**
-
-.. code-block:: html+jinja
-
-    {% extends "AlexWebBundle::base.html.twig" %}
-
-    {% block title 'A yuupi title' %}
-
-    {% block content %}
-        Page content
-    {% endblock %}
+            resources: [ "AlexWebBundle::form_bootstrap3_layout.html.twig" ]
 
 Locale listener
-:::::::::::::::
+---------------
 
 A listener can be registered in the application (``LocaleListener``) to constraint
-the request locale:
+the request locale.
 
 .. code-block:: yaml
 
@@ -169,58 +161,3 @@ Here is an example of a form with tabs:
             ->add('main', 'contact')
         )
     ;
-
-
-Additional dependencies
-:::::::::::::::::::::::
-
-In your ``composer.json``:
-
-.. code-block:: json
-
-    "require": {
-        "leafo/lessphp": "~0.3",
-        "twitter/bootstrap": "~2.3",
-        "fortawesome/font-awesome": "~3.2"
-
-        "jquery/jquery": "~1.10",
-        "jquery/jquery-ui": "~1.10",
-        "famfamfam/flags": "dev-master"
-    },
-
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "jquery/jquery",
-                "version": "1.10.2",
-                "dist": {
-                    "url": "http://code.jquery.com/jquery-1.10.2.min.js",
-                    "type": "file"
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "name": "jquery/jquery-ui",
-                "version": "1.10.3",
-                "dist": {
-                    "url": "http://jqueryui.com/resources/download/jquery-ui-1.10.3.zip",
-                    "type": "zip"
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "name": "famfamfam/flags",
-                "version": "dev-master",
-                "source": {
-                    "url": "https://github.com/tkrotoff/famfamfam_flags.git",
-                    "type": "git",
-                    "reference": "master"
-                }
-            }
-        }
-    ]

@@ -2,17 +2,29 @@
 
 namespace Alex\WebBundle\DataFixtures;
 
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Base fixture class for ORM.
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-abstract class ORMFixture extends ContainerAware implements FixtureInterface, OrderedFixtureInterface
+abstract class ORMFixture extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface, ContainerAwareInterface
 {
+    protected $container;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
     /**
      * Returns a container service.
      *
