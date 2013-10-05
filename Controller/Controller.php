@@ -21,6 +21,23 @@ abstract class Controller extends BaseController
     }
 
     /**
+     * Persists an entity with Doctrine and flushes connection.
+     *
+     * @param object $entity
+     *
+     * @return Controller
+     */
+    protected function persistAndFlush($entity)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($entity);
+        $em->flush();
+
+        return $this;
+    }
+
+    /**
      * Adds a success message to the session flashbag.
      *
      * @param string $message
