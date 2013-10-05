@@ -15,7 +15,7 @@ abstract class Controller extends BaseController
     /**
      * @return Doctrine\ORM\EntityRepository
      */
-    public function getRepository($name)
+    protected function getRepository($name)
     {
         return $this->getDoctrine()->getRepository($name);
     }
@@ -27,7 +27,7 @@ abstract class Controller extends BaseController
      *
      * @return Controller
      */
-    public function addSuccess($message)
+    protected function addSuccess($message)
     {
         $this->get('session')->getFlashBag()->add('message_success', $message);
 
@@ -41,7 +41,7 @@ abstract class Controller extends BaseController
      *
      * @return Controller
      */
-    public function addWarning($message)
+    protected function addWarning($message)
     {
         $this->get('session')->getFlashBag()->add('message_warning', $message);
     }
@@ -53,7 +53,7 @@ abstract class Controller extends BaseController
      *
      * @return Controller
      */
-    public function addError($message)
+    protected function addError($message)
     {
         $this->get('session')->getFlashBag()->add('message_error', $message);
     }
@@ -65,12 +65,12 @@ abstract class Controller extends BaseController
      *
      * @return Controller
      */
-    public function addNotice($message)
+    protected function addNotice($message)
     {
         $this->get('session')->getFlashBag()->add('message_notice', $message);
     }
 
-    public function renderJson($data)
+    protected function renderJson($data)
     {
         $response = new Response();
         $response->headers->set('Content-Type', 'application/json');
