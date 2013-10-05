@@ -61,6 +61,8 @@ abstract class Controller extends BaseController
     protected function addWarning($message)
     {
         $this->get('session')->getFlashBag()->add('message_warning', $message);
+
+        return $this;
     }
 
     /**
@@ -73,6 +75,8 @@ abstract class Controller extends BaseController
     protected function addError($message)
     {
         $this->get('session')->getFlashBag()->add('message_error', $message);
+
+        return $this;
     }
 
     /**
@@ -85,6 +89,8 @@ abstract class Controller extends BaseController
     protected function addNotice($message)
     {
         $this->get('session')->getFlashBag()->add('message_notice', $message);
+
+        return $this;
     }
 
     protected function renderJson($data)
@@ -94,5 +100,37 @@ abstract class Controller extends BaseController
         $response->setContent(json_encode($data));
 
         return $response;
+    }
+
+    /**
+     * Throws an exception (404 Not found) if condition is true.
+     *
+     * @param mixed $condition condition to test
+     * @param string $message error message
+     *
+     * @return Controller
+     */
+    protected function throwNotFoundIf($condition, $message = 'Not found')
+    {
+        if ($condition) {
+            throw $this->createNotFoundException($message);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Throws an exception (404 Not found) unless condition is true.
+     *
+     * @param mixed $condition condition to test
+     * @param string $message error message
+     *
+     * @return Controller
+     */
+    protected function throwNotFoundUnless($condition, $message = 'Not found')
+    {
+        $this->throwNotFoundIf(!$condition, $message);
+
+        return $this;
     }
 }
