@@ -5,6 +5,7 @@ namespace Alex\WebBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * A reusable controller.
@@ -143,7 +144,7 @@ abstract class Controller extends BaseController
      *
      * @return Controller
      */
-    protected function throwAccessDeniedIf($condition, $message = 'Not found')
+    protected function throwAccessDeniedIf($condition, $message = 'Access denied')
     {
         if ($condition) {
             throw $this->createAccessDeniedException($message);
@@ -160,7 +161,7 @@ abstract class Controller extends BaseController
      *
      * @return Controller
      */
-    protected function throwAccessDeniedUnless($condition, $message = 'Not found')
+    protected function throwAccessDeniedUnless($condition, $message = 'Access denied')
     {
         $this->throwNotFoundIf(!$condition, $message);
 
@@ -171,6 +172,46 @@ abstract class Controller extends BaseController
      * @return AccessDeniedHttpException
      */
     protected function createAccessDeniedException($message = 'Access denied', \Exception $previous = null)
+    {
+        return new AccessDeniedHttpException($message, $previous);
+    }
+
+    /**
+     * Throws an exception (400 Bad request) if condition is true.
+     *
+     * @param mixed $condition condition to test
+     * @param string $message error message
+     *
+     * @return Controller
+     */
+    protected function throwBadRequestIf($condition, $message = 'Bad request')
+    {
+        if ($condition) {
+            throw $this->createBadRequestException($message);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Throws an exception (400 Bad request) unless condition is true.
+     *
+     * @param mixed $condition condition to test
+     * @param string $message error message
+     *
+     * @return Controller
+     */
+    protected function throwBadRequestUnless($condition, $message = 'Bad request')
+    {
+        $this->throwNotFoundIf(!$condition, $message);
+
+        return $this;
+    }
+
+    /**
+     * @return BadRequestHttpException
+     */
+    protected function createBadRequestException($message = 'Bad request', \Exception $previous = null)
     {
         return new AccessDeniedHttpException($message, $previous);
     }
