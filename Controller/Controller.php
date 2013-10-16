@@ -4,6 +4,7 @@ namespace Alex\WebBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * A reusable controller.
@@ -132,5 +133,45 @@ abstract class Controller extends BaseController
         $this->throwNotFoundIf(!$condition, $message);
 
         return $this;
+    }
+
+    /**
+     * Throws an exception (403 Access denied) if condition is true.
+     *
+     * @param mixed $condition condition to test
+     * @param string $message error message
+     *
+     * @return Controller
+     */
+    protected function throwAccessDeniedIf($condition, $message = 'Not found')
+    {
+        if ($condition) {
+            throw $this->createAccessDeniedException($message);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Throws an exception (403 Access denied) unless condition is true.
+     *
+     * @param mixed $condition condition to test
+     * @param string $message error message
+     *
+     * @return Controller
+     */
+    protected function throwAccessDeniedUnless($condition, $message = 'Not found')
+    {
+        $this->throwNotFoundIf(!$condition, $message);
+
+        return $this;
+    }
+
+    /**
+     * @return AccessDeniedHttpException
+     */
+    protected function createAccessDeniedException($message = 'Access denied', \Exception $previous = null)
+    {
+        return new AccessDeniedHttpException($message, $previous);
     }
 }
