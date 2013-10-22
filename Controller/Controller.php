@@ -40,6 +40,22 @@ abstract class Controller extends BaseController
     }
 
     /**
+     * Creates a form with a given name. To get form fields name without prefix,
+     * pass an empty string as first argument:
+     *
+     *     $this->createNamedForm('foo', 'repeat') => "foo[first]" and "foo[second]"
+     *     $this->createNamedForm('', 'repeat') => "first" and "second"
+     *
+     * @see Symfony\Component\Form\FormFactoryInterface
+     *
+     * @return Symfony\Component\Form\FormInterface
+     */
+    protected function createNamedForm($name, $type = 'form', $data = null, array $options = array())
+    {
+        return $this->get('form.factory')->createNamed($name, $type, $data, $options);
+    }
+
+    /**
      * Adds a success message to the session flashbag.
      *
      * @param string $message
