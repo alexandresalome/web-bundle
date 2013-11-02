@@ -215,7 +215,7 @@
                                 {{ form_widget(subform) }}
                             </div>
                             <div class="col-lg-2">
-                                <button class="form-collection-delete btn btn-small btn-danger">Delete</button>
+                                <a class="form-collection-delete btn btn-small btn-danger">Delete</a>
                             </div>
                         </div>
                     {% else %}
@@ -232,13 +232,13 @@
                             {{ form_widget(prototype) }}
                         </div>
                         <div class="col-lg-2">
-                            <button class="form-collection-delete btn btn-small btn-danger">Delete</button>
+                            <a class="form-collection-delete btn btn-small btn-danger">Delete</a>
                         </div>
                     </div>
                 </div>
             {% endset %}
             <div class="form-collection-footer">
-                <button data-prototype="{{ prototype|e }}" class="form-collection-add btn btn-small btn-success">New element</button>
+                <a data-prototype="{{ prototype|e }}" class="form-collection-add btn btn-small btn-success">New element</a>
             </div>
         {% endif %}
     </div>

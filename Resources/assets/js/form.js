@@ -27,7 +27,7 @@ jQuery.fn.formDecorate = function () {
     function decorateCollection($form)
     {
         // addition
-        $form.on('click', 'button[data-prototype]', function (event) {
+        $form.on('click', 'a[data-prototype]', function (event) {
             event.preventDefault();
 
             var $button   = $(event.currentTarget);
@@ -41,7 +41,7 @@ jQuery.fn.formDecorate = function () {
         });
 
         // deletion
-        $form.on('click', 'button.form-collection-delete', function (event) {
+        $form.on('click', 'a.form-collection-delete', function (event) {
             event.preventDefault();
 
             var $button   = $(event.currentTarget);
