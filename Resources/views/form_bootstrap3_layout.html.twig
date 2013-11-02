@@ -225,8 +225,20 @@
             {% endfor %}
         </div>
         {% if prototype is defined %}
+            {% set prototype %}
+                <div class="form-collection-element">
+                    <div class="row">
+                        <div class="col-lg-10">
+                            {{ form_widget(prototype) }}
+                        </div>
+                        <div class="col-lg-2">
+                            <button class="form-collection-delete btn btn-small btn-danger">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            {% endset %}
             <div class="form-collection-footer">
-                <button data-prototype="{{ form_widget(prototype)|e }}" class="form-collection-add btn btn-small btn-success">New element</button>
+                <button data-prototype="{{ prototype|e }}" class="form-collection-add btn btn-small btn-success">New element</button>
             </div>
         {% endif %}
     </div>

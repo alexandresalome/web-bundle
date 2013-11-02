@@ -4,7 +4,8 @@
  * All options are optional. Default values are shown here.
  *
  * $("form").formDecorate({
- *     decorate_datetime: true
+ *     decorate_datetime: true,
+ *     decorate_collection: true
  * });
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
@@ -20,6 +21,32 @@ jQuery.fn.formDecorate = function () {
     {
         return array.map(function (val) {
             return val.toLowerCase();
+        });
+    };
+
+    function decorateCollection($form)
+    {
+        // addition
+        $form.on('click', 'button[data-prototype]', function (event) {
+            event.preventDefault();
+
+            var $button   = $(event.currentTarget);
+            var $scope    = $button.parents('.form-collection').first();
+            var $elements = $scope.find('.form-collection-elements');
+            var prototype = $button.attr('data-prototype');
+
+            $elements.append(prototype);
+
+            console.log(prototype.replace(/__name__/g, Math.random()));
+        });
+
+        // deletion
+        $form.on('click', 'button.form-collection-delete', function (event) {
+            event.preventDefault();
+
+            var $button   = $(event.currentTarget);
+
+            $button.parents('.form-collection-element').first().remove();
         });
     };
 
@@ -64,11 +91,16 @@ jQuery.fn.formDecorate = function () {
 
     var $form = $(this[0]);
     var options = $.merge({
-        decorate_datetime: true
+        decorate_datetime: true,
+        decorate_collection: true
     }, arguments[0] || {});
 
     if (options.decorate_datetime) {
         decorateDatetime($form);
+    }
+
+    if (options.decorate_collection) {
+        decorateCollection($form);
     }
 }
 
