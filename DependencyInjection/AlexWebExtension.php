@@ -19,6 +19,7 @@ class AlexWebExtension extends Extension
 
         $loader->load('form.xml');
         $loader->load('kernel.xml');
+        $loader->load('twig.xml');
 
         if ($config['locale_listener']['enabled']) {
             $container->setParameter('alex_web.locale_listener.locales', $config['locale_listener']['locales']);

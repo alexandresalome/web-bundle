@@ -39,14 +39,6 @@ for an exhaustive feature list.
 Data Fixtures
 -------------
 
-A full-featured fixture class is available in this bundle:
-
-* getReference/setReference
-* Default order (1)
-* Container injection
-
-To start using it:
-
 .. code-block:: php
 
     namespace Acme\DemoBundle\DataFixtures\ORM;
@@ -58,8 +50,8 @@ To start using it:
     {
         public function load(ObjectManager $manager)
         {
+            // access a container service
             $this->get('security.encoder_factory');
-            // ...
         }
     }
 
@@ -98,6 +90,19 @@ but still want to use the listener:
             enabled: true
             locales: [fr_FR, en_US]
             session_key: null # disable persistence in session
+
+Twig extension
+::::::::::::::
+
+``|format_interval``
+
+Example:
+
+.. code-block:: html+jinja
+
+    Duration: {{ job.finishedAt.diff(jobStartedAt) }} {# should be job.duration #}
+
+This method will transform DateInterval object to a string representation.
 
 Pagination template
 :::::::::::::::::::
