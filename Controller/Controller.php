@@ -179,7 +179,7 @@ abstract class Controller extends BaseController
      */
     protected function throwAccessDeniedUnless($condition, $message = 'Access denied')
     {
-        $this->throwNotFoundIf(!$condition, $message);
+        $this->throwAccessDeniedIf(!$condition, $message);
 
         return $this;
     }
@@ -219,7 +219,7 @@ abstract class Controller extends BaseController
      */
     protected function throwBadRequestUnless($condition, $message = 'Bad request')
     {
-        $this->throwNotFoundIf(!$condition, $message);
+        $this->throwBadRequestIf(!$condition, $message);
 
         return $this;
     }
