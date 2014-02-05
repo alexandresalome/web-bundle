@@ -4,7 +4,7 @@ namespace Alex\WebBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
@@ -189,7 +189,7 @@ abstract class Controller extends BaseController
      */
     protected function createAccessDeniedException($message = 'Access denied', \Exception $previous = null)
     {
-        return new AccessDeniedHttpException($message, $previous);
+        return new AccessDeniedException($message, $previous);
     }
 
     /**
