@@ -35,9 +35,7 @@ jQuery.fn.formDecorate = function () {
             var $elements = $scope.find('.form-collection-elements');
             var prototype = $button.attr('data-prototype');
 
-            $elements.append(prototype);
-
-            console.log(prototype.replace(/__name__/g, Math.random()));
+            $elements.append(prototype.replace(/__name__/g, Math.random().toString().substring(2)));
         });
 
         // deletion
