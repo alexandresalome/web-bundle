@@ -1,5 +1,7 @@
-AlexWebBundle
-=============
+[DEPRECATED] AlexWebBundle
+==========================
+
+I recommend you to pick snippets in the code, but not to use it actually (very unstable).
 
 Installation
 ------------
